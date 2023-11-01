@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:shape="rectangle">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:angle="315"
+        android:background="#438883"
+        android:endColor="#438883"
+        android:scaleType="center"
+        android:src="@drawable/launch_screen"
+        android:startColor="#63B5AF"
+        android:type="linear" />
+</RelativeLayout>
