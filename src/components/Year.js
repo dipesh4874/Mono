@@ -17,6 +17,7 @@ const Year = () => {
               style={[
                 styles.Touchstyle,
                 {backgroundColor: index === index1 ? '#438883' : null},
+                {paddingHorizontal: index === index1 ? wp(32) : wp(15)},
               ]}
               onPress={() => setIndex1(index)}>
               <Text style={{color: index === index1 ? 'white' : 'black'}}>
@@ -32,14 +33,14 @@ const Year = () => {
 
 const styles = StyleSheet.create({
   viewstyle: {
-    flexDirection: 'row',
-    marginTop: hp(20),
+    marginTop: hp(40),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   Touchstyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(15),
-    marginTop: hp(20),
     paddingVertical: hp(10),
     paddingHorizontal: wp(15),
     borderRadius: 10,

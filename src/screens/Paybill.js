@@ -1,14 +1,15 @@
 import {View, Text, ImageBackground, StyleSheet, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Heder from '../components/Heder';
 import {images} from '../helper/images';
 import {fs, hp, wp} from '../helper/Globel';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Fee from '../components/Fee';
 import Paybutton from '../components/Paybutton';
 
-const Paybill = () => {
+const Paybill = ({route}) => {
   const navigation = useNavigation();
+  const [routedata, setroutedata] = useState(route?.params);
   return (
     <View style={styles.mainview}>
       <ImageBackground
@@ -25,19 +26,28 @@ const Paybill = () => {
       </ImageBackground>
       <View style={styles.view1}>
         <View style={styles.imageview}>
-          <Image source={images.roungyoutbe} />
+          <Image
+            source={routedata?.image}
+            style={{width: wp(80), height: wp(80), borderRadius: 50}}
+          />
           <View style={styles.viewtext}>
             <Text style={styles.textstyle}>You will pay</Text>
-            <Text style={styles.youtubeprimetext}>Youtube Premium </Text>
+            <Text style={styles.youtubeprimetext}>
+              {routedata?.name} Premium
+            </Text>
           </View>
 
           <Text style={styles.textstyle}>for one month with BCA OneKlik</Text>
           <View style={styles.Feeview}>
-            <Fee />
+            <Fee routes={routedata} heder={'price'} />
           </View>
         </View>
         <View style={styles.buttonview}>
-          <Paybutton navigations={'Succesfull'} tittle={'Confirm and Pay'} />
+          <Paybutton
+            navigations={'Succesfull'}
+            route={routedata}
+            tittle={'Confirm and Pay'}
+          />
         </View>
       </View>
     </View>

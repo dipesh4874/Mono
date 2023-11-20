@@ -20,19 +20,27 @@ const Upwork = ({
   datecolor,
   dolcolor,
   containe,
+  fontSize,
+  datefont,
 }) => {
   return (
     <View style={styles.transjectionview}>
       <View style={styles.view}>
         <Image source={image} style={styles.upworkstyle} />
-        <View style={{marginLeft: 5}}>
-          <Text style={[styles.Symbolname, txtcolor]}>{platform}</Text>
-          <Text style={[styles.date, datecolor]}>{date}</Text>
+        <View style={styles.styleview}>
+          <Text style={[styles.Symbolname, txtcolor, fontSize]}>
+            {platform}
+          </Text>
+          <Text style={[styles.date, datecolor, datefont]}>{date}</Text>
         </View>
       </View>
       <View>
         <View>{containe}</View>
-        <Text style={[styles.updollr, {color: color}, dolcolor]}>{price}</Text>
+        {price && (
+          <Text style={[styles.updollr, {color: color}, dolcolor]}>
+            {price}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -40,6 +48,7 @@ const Upwork = ({
 const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   transjectionview: {
     paddingHorizontal: wp(20),
@@ -60,10 +69,15 @@ const styles = StyleSheet.create({
   Symbolname: {
     color: 'black',
     padding: 5,
+    fontSize: fs(16),
   },
   date: {
     marginLeft: wp(5),
     color: '#666666',
+    fontSize: fs(13),
+  },
+  styleview: {
+    marginLeft: 5,
   },
 });
 

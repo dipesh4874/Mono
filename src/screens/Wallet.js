@@ -12,71 +12,29 @@ import {images} from '../helper/images';
 import {fs, hp, wp} from '../helper/Globel';
 import Heder from '../components/Heder';
 import Upwork from '../components/Upwork';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+import {Dummydata, Dumyy2} from '../helper/Dummy';
 
 const Wallet = ({navigation}) => {
+  let route = useRoute();
   const [show, setshow] = useState('Transaction');
-  const data = [
-    {
-      name: 'Upwork',
-      date: 'Today',
-      price: '+ $ 850.00',
-      image: require('../assets/images/upwork.png'),
-      color: '#438883',
-    },
-    {
-      name: 'Transfer',
-      date: 'Yesterday',
-      price: '- $ 85.00',
-      image: require('../assets/images/Transfer.png'),
-      color: 'red',
-    },
-    {
-      name: 'Paypal',
-      date: 'Jan 30, 2022',
-      price: '+ $ 1406.00',
-      image: require('../assets/images/paypal.png'),
-      color: '#438883',
-    },
-    {
-      name: 'Youtube',
-      date: 'jan 16, 2022',
-      price: '- $ 11.99',
-      image: require('../assets/images/youtube.png'),
-      color: 'red',
-    },
-  ];
+  const [FlatListData, setFlatListData] = useState([]);
 
-  const data2 = [
-    {
-      name: 'Youtube',
-      date: 'jan 16, 2022',
-      containe: 'Pay',
-      image: require('../assets/images/youtube1.png'),
-    },
-    {
-      name: 'Electricity',
-      date: 'Mar 28, 2022',
-      containe: 'Pay',
-      image: require('../assets/images/flash.png'),
-    },
-    {
-      name: 'House Rent',
-      date: 'Mar 31, 2022',
-      containe: 'Pay',
-      image: require('../assets/images/home1.png'),
-    },
-    {
-      name: 'Spotify',
-      date: 'Feb 28, 2022',
-      containe: 'Pay',
-      image: require('../assets/images/spotifiy.png'),
-    },
-  ];
+  useEffect(() => {
+    if (route?.params) {
+      setFlatListData(prev => [...prev, route?.params]);
+    } else {
+      setFlatListData(Dummydata);
+    }
+  }, [route?.params]);
 
   const Upworks = item => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Downlod', item);
+        }}>
         <Upwork
           platform={item.name}
           image={item.image}
@@ -97,14 +55,16 @@ const Wallet = ({navigation}) => {
         platform={item.name}
         image={item.image}
         date={item.date}
-        price={item.price}
+        // price={item.price}
         color={item.color}
         txtcolor={item.color}
         datecolor={item.color}
         dolcolor={item.color}
         containe={
           <TouchableOpacity
-            onPress={() => navigation.navigate('ConnectWallet')}
+            onPress={() => {
+              navigation.navigate('ConnectWallet', item);
+            }}
             style={styles.paystyle}>
             <Text style={styles.textpay}>Pay</Text>
           </TouchableOpacity>
@@ -121,31 +81,35 @@ const Wallet = ({navigation}) => {
         resizeMode="stretch">
         <Heder
           hedername={'Wallet'}
-          item={() => navigation.navigate('Stastic')}
+          item={() => navigation.navigate('Home', FlatListData)}
           imagess={images.belll}
           color={'white'}
           imagecolor={'white'}
         />
+        <View style={styles.view1}>
+          <Text style={styles.textbalnce}>Total Balance</Text>
+          <Text style={styles.dolertext}>$ 2,548.00</Text>
+        </View>
       </ImageBackground>
-      <View style={styles.view1}>
-        <Text style={styles.textbalnce}>Total Balance</Text>
-        <Text style={styles.dolertext}>$ 2,548.00</Text>
-      </View>
       <View style={styles.view2}>
-        <TouchableOpacity>
-          <Image source={images.add} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={images.pay} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={images.send} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.view3}>
-        <Text style={styles.imagetext}>Add</Text>
-        <Text style={styles.imagetext}>Pay</Text>
-        <Text style={styles.imagetext}>Send</Text>
+        <View style={styles.gap}>
+          <TouchableOpacity>
+            <Image source={images.add} style={styles.imagestyle} />
+          </TouchableOpacity>
+          <Text style={styles.imagetext}>Add</Text>
+        </View>
+        <View style={styles.gap}>
+          <TouchableOpacity>
+            <Image source={images.pay} style={styles.imagestyle} />
+          </TouchableOpacity>
+          <Text style={styles.imagetext}>Pay</Text>
+        </View>
+        <View style={styles.gap}>
+          <TouchableOpacity>
+            <Image source={images.send} style={styles.imagestyle} />
+          </TouchableOpacity>
+          <Text style={styles.imagetext}>Send</Text>
+        </View>
       </View>
       <View style={styles.view4}>
         <TouchableOpacity
@@ -165,13 +129,15 @@ const Wallet = ({navigation}) => {
           <Text style={styles.paytext}>Upcoming Bills</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={show === 'Upcoming_Bills' ? data2 : data}
-        bounces={false}
-        renderItem={({item}) => {
-          return show === 'Transaction' ? Upworks(item) : Wallets(item);
-        }}
-      />
+      <View style={styles.flatview}>
+        <FlatList
+          data={show === 'Upcoming_Bills' ? Dumyy2 : FlatListData}
+          bounces={false}
+          renderItem={({item}) => {
+            return show === 'Transaction' ? Upworks(item) : Wallets(item);
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -186,74 +152,83 @@ const styles = StyleSheet.create({
   textbalnce: {
     fontSize: fs(16),
     color: '#222',
+    marginTop: hp(12),
   },
   dolertext: {
     fontSize: fs(30),
     fontWeight: '700',
     color: '#222',
+    marginTop: hp(12),
   },
   view1: {
-    width: wp(378),
+    width: '100%',
     height: hp(771),
-    padding: 30,
+    padding: 20,
     backgroundColor: 'white',
-    position: 'absolute',
+
     borderRadius: 30,
-    top: hp(170),
+    marginTop: hp(59),
     alignItems: 'center',
   },
   view2: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: wp(85),
-    paddingVertical: hp(1),
+    marginHorizontal: wp(87),
+    gap: 30,
+    justifyContent: 'center',
+    marginTop: hp(40),
   },
-  view3: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: wp(91),
-    padding: 10,
-  },
+
   imagetext: {
     textAlign: 'center',
     color: '#222',
+    fontSize: fs(14),
   },
   view4: {
     flexDirection: 'row',
-    paddingHorizontal: wp(6),
-    paddingVertical: hp(5),
+    height: hp(48),
     justifyContent: 'space-between',
     marginHorizontal: wp(20),
-    // marginVertical: hp(10),
-    backgroundColor: '#F4F6F6',
-    marginTop: hp(50),
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(4),
+    backgroundColor: '#f2f2f2',
+    marginTop: hp(60),
     borderRadius: 40,
+    alignItems: 'center',
   },
   paytext: {
     fontWeight: '600',
     color: '#666',
+    fontSize: fs(14),
+    textAlign: 'center',
   },
   touchstyle: {
-    paddingHorizontal: wp(35),
     borderRadius: 40,
-    paddingVertical: hp(12),
-  },
-  touchstyleShow: {
-    paddingHorizontal: wp(40),
-    borderRadius: 40,
-    paddingVertical: hp(12),
+    height: hp(40),
+    width: wp(180),
+    justifyContent: 'center',
   },
   paystyle: {
     borderRadius: 40,
     backgroundColor: '#ECF9F8',
     paddingHorizontal: wp(35),
-    paddingVertical: hp(10),
+    paddingVertical: hp(7),
     alignSelf: 'center',
   },
   textpay: {
     color: '#438883',
     fontWeight: '500',
     fontSize: fs(16),
+  },
+  imagestyle: {
+    height: hp(60),
+    width: hp(60),
+  },
+  gap: {
+    gap: 8,
+  },
+  flatview: {
+    marginTop: hp(10),
+    flex: 1,
   },
 });
 

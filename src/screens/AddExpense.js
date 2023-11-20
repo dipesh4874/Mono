@@ -1,3 +1,65 @@
+// import React, {useState} from 'react';
+// import {StyleSheet} from 'react-native';
+// import {SelectCountry} from 'react-native-element-dropdown';
+// import {Expense} from '../helper/Dummy';
+
+// const AddExpense = _props => {
+//   const [country, setCountry] = useState('1');
+
+//   return (
+//     <SelectCountry
+//       style={styles.dropdown}
+//       selectedTextStyle={styles.selectedTextStyle}
+//       placeholderStyle={styles.placeholderStyle}
+//       imageStyle={styles.imageStyle}
+//       inputSearchStyle={styles.inputSearchStyle}
+//       iconStyle={styles.iconStyle}
+//       search
+//       maxHeight={200}
+//       value={country}
+//       data={Expense}
+//       valueField="value"
+//       labelField="lable"
+//       imageField="image"
+//       placeholder="Select country"
+//       searchPlaceholder="Search..."
+//       onChange={e => {
+//         setCountry(e.value);
+//       }}
+//     />
+//   );
+// };
+
+// export default AddExpense;
+
+// const styles = StyleSheet.create({
+//   dropdown: {
+//     margin: 16,
+//     height: 50,
+//     borderBottomColor: 'gray',
+//     borderBottomWidth: 0.5,
+//   },
+//   imageStyle: {
+//     width: 24,
+//     height: 24,
+//   },
+//   placeholderStyle: {
+//     fontSize: 16,
+//   },
+//   selectedTextStyle: {
+//     fontSize: 16,
+//     marginLeft: 8,
+//   },
+//   iconStyle: {
+//     width: 20,
+//     height: 20,
+//   },
+//   inputSearchStyle: {
+//     height: 40,
+//     fontSize: 16,
+//   },
+// });
+
 import {
   View,
   Text,
@@ -15,11 +77,17 @@ import {images} from '../helper/images';
 import {fs, hp, wp} from '../helper/Globel';
 import Heder from '../components/Heder';
 import CalendarPicker from 'react-native-calendar-picker';
+import {Dropdown, SelectCountry} from 'react-native-element-dropdown';
+import {Expense} from '../helper/Dummy';
+import {useRoute} from '@react-navigation/native';
 
 const AddExpense = ({navigation}) => {
-  const [clear, setClear] = useState('');
+  const route = useRoute();
+  // console.log('::::::', route?.params);
   const [Model, showModel] = useState(false);
   const [date, setdate] = useState(null);
+  const [selected, setSelected] = useState('');
+  const [price, setPrice] = useState('');
 
   let newDate = new Date(date).toLocaleDateString('en-us', {
     day: '2-digit',
@@ -52,26 +120,31 @@ const AddExpense = ({navigation}) => {
           imagecolor={'white'}
         />
         <View style={styles.secondview}>
-          <Text>NAME</Text>
-          <View style={styles.thirdview}>
-            <View style={styles.netview}>
-              <Image source={images.netflix} />
-              <Text style={styles.netfilxtext}>Netflix</Text>
-            </View>
-            <TouchableOpacity>
-              <Image source={images.starrow} style={styles.stararrowstyle} />
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.name}>NAME</Text>
+          <SelectCountry
+            style={styles.dropdown}
+            selectedTextStyle={styles.selectedTextStyle}
+            imageStyle={styles.imageStyle}
+            data={Expense}
+            value={selected}
+            labelField="name"
+            valueField={'name'}
+            imageField="image"
+            onChange={e => {
+              setSelected(e.name);
+              setPrice(e.price);
+            }}
+          />
           <Text style={styles.amounttext}>AMOUNT</Text>
           <View style={styles.textinpuview}>
             <TextInput
-              placeholder="Price"
+              // placeholder="Price"
               keyboardType={'numbers-and-punctuation'}
-              style={{color: '#438883'}}
-              value={clear}
-              onChangeText={value => setClear(value)}
+              style={styles.textinput}
+              value={price}
+              editable={false}
             />
-            <TouchableOpacity onPress={() => setClear('')}>
+            <TouchableOpacity onPress={() => setPrice('')}>
               <Text style={styles.cleartext}>Clear</Text>
             </TouchableOpacity>
           </View>
@@ -104,8 +177,8 @@ const AddExpense = ({navigation}) => {
           <View style={styles.invoicestyle}>
             <TouchableOpacity style={styles.plusebutton}>
               <Image source={images.addpluse} />
+              <Text>Add Invoice</Text>
             </TouchableOpacity>
-            <Text>Add Invoice</Text>
           </View>
         </View>
       </ImageBackground>
@@ -116,6 +189,10 @@ const styles = StyleSheet.create({
   mainview: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  name: {
+    fontSize: fs(12),
+    fontWeight: '500',
   },
   imagbac: {
     width: '100%',
@@ -129,14 +206,13 @@ const styles = StyleSheet.create({
     marginTop: hp(60),
   },
   secondview: {
-    width: wp(338),
+    width: wp(358),
+    height: hp(500),
     padding: hp(20),
     backgroundColor: 'white',
-    marginTop: hp(60),
+    marginTop: hp(59),
     borderRadius: 20,
     alignSelf: 'center',
-    paddingBottom: hp(88),
-    shadowColor: ' #000008',
     shadowOffset: {
       width: wp(4),
       height: hp(12),
@@ -204,10 +280,36 @@ const styles = StyleSheet.create({
     fontSize: fs(12),
   },
   plusebutton: {
-    right: wp(5),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: wp(5),
   },
   stararrowstyle: {
-    right: wp(60),
+    right: wp(40),
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  imageStyle: {
+    width: wp(24),
+    height: wp(24),
+    resizeMode: 'contain',
+  },
+  dropdown: {
+    marginTop: hp(10),
+    height: hp(50),
+    width: wp(318),
+    borderRadius: 10,
+    borderWidth: 0.5,
+    padding: 10,
+    borderColor: 'grey',
+  },
+  textinput: {
+    color: '#438883',
+    fontSize: fs(14),
+    fontWeight: '600',
   },
 });
 

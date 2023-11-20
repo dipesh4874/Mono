@@ -13,10 +13,26 @@ import Heder from '../components/Heder';
 import {TextInput} from 'react-native-paper';
 import Account from '../components/Account';
 import {useNavigation} from '@react-navigation/native';
+import {createMaterialBottomTabNavigator} from 'react-native-paper/lib/typescript/react-navigation';
 
-const ConnectWallet = () => {
+const ConnectWallet = ({route}) => {
   const [show, setshow] = useState('cards');
+  const [card, setcard] = useState('');
+  const [number, setnumber] = useState('');
+  const [date, setdate] = useState('');
+  const [cvc, setcvc] = useState('');
+  const [zip, setzip] = useState('');
+  const [routedata, setroutedata] = useState(route?.params);
+
   const navigation = useNavigation();
+
+  const dip = {
+    name: card,
+    number: number,
+    cvcnumber: cvc,
+    zipnumber: zip,
+    dateshow: date,
+  };
 
   return (
     <View style={styles.maincontainer}>
@@ -28,107 +44,119 @@ const ConnectWallet = () => {
           color={'white'}
           imagecolor={'white'}
         />
-      </ImageBackground>
-      <View style={styles.view1}>
-        <View style={styles.view4}>
-          <TouchableOpacity
-            onPress={() => setshow('cards')}
-            style={[
-              styles.touchstyle,
-              {backgroundColor: 'Accounts' !== show ? 'white' : null},
-            ]}>
-            <Text style={styles.paytext}>Cards</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setshow('Accounts')}
-            style={[
-              styles.touchstyle,
-              {backgroundColor: 'Accounts' === show ? 'white' : null},
-            ]}>
-            <Text style={styles.paytext}>Accounts</Text>
-          </TouchableOpacity>
-        </View>
-        {show === 'cards' ? (
-          <View style={{justifyContent: 'center'}}>
-            <View style={{justifyContent: 'center'}}>
+        <View style={styles.view1}>
+          <View style={styles.view4}>
+            <TouchableOpacity
+              onPress={() => setshow('cards')}
+              style={[
+                styles.touchstyle,
+                {backgroundColor: 'Accounts' !== show ? 'white' : null},
+              ]}>
+              <Text style={styles.paytext}>Cards</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setshow('Accounts')}
+              style={[
+                styles.touchstyle,
+                {backgroundColor: 'Accounts' === show ? 'white' : null},
+              ]}>
+              <Text style={styles.paytext}>Accounts</Text>
+            </TouchableOpacity>
+          </View>
+          {show === 'cards' ? (
+            <View style={styles.cardvew}>
               <View style={styles.cardview}>
                 <Image
                   source={images.visa}
                   resizeMode="contain"
                   style={styles.visa}
                 />
-              </View>
-              <View style={styles.Cards}>
+
                 <Image
                   source={images.Cards}
                   resizeMode="contain"
                   style={styles.cardimage}
                 />
               </View>
-            </View>
-            <View style={styles.detailcontainer}>
-              <View style={styles.detail}>
-                <Text style={styles.adddebittext}>Add your debit Card</Text>
-                <Text style={styles.adddebittext2}>
-                  This card must be connected to a bank account under your name
-                </Text>
+              <View style={styles.addview}>
+                <View style={styles.detailcontainer}>
+                  <View style={styles.detail}>
+                    <Text style={styles.adddebittext}>Add your debit Card</Text>
+                    <Text style={styles.adddebittext2}>
+                      This card must be connected to a bank account
+                    </Text>
+                    <Text style={styles.adddebittext2}>under your name</Text>
+                  </View>
+                </View>
               </View>
+              <View style={styles.detail}>
+                <TextInput
+                  onChangeText={card => setcard(card)}
+                  mode="outlined"
+                  value={card}
+                  label="NAME ON CARD"
+                  placeholder="IRVAN MOSES"
+                  activeOutlineColor="grey"
+                  outlineColor="grey"
+                  outlineStyle={{borderRadius: 8, width: wp(364)}}
+                  style={styles.texgtinput1}
+                />
+                <View style={styles.miniinput}>
+                  <TextInput
+                    onChangeText={number => setnumber(number)}
+                    value={number}
+                    mode="outlined"
+                    label="DEBIT CARD NUMBER"
+                    activeOutlineColor="grey"
+                    outlineColor="grey"
+                    keyboardType="number-pad"
+                    outlineStyle={{borderRadius: 8, width: wp(220)}}
+                    style={styles.inputstyle}
+                  />
+                  <TextInput
+                    onChangeText={cvc => setcvc(cvc)}
+                    value={cvc}
+                    mode="outlined"
+                    label="CVC"
+                    activeOutlineColor="grey"
+                    outlineColor="grey"
+                    keyboardType="decimal-pad"
+                    outlineStyle={{borderRadius: 8, width: wp(133)}}
+                    style={styles.inputstyle2}
+                  />
+                </View>
+                <View style={styles.miniinput}>
+                  <TextInput
+                    onChangeText={date => setdate(date)}
+                    value={date}
+                    mode="outlined"
+                    label="EXPIRATION MM/YY"
+                    activeOutlineColor="grey"
+                    outlineColor="grey"
+                    outlineStyle={{borderRadius: 8, width: wp(220)}}
+                    style={styles.inputstyle}
+                  />
+                  <TextInput
+                    onChangeText={zip => setzip(zip)}
+                    value={zip}
+                    mode="outlined"
+                    label="ZIP"
+                    activeOutlineColor="grey"
+                    outlineColor="grey"
+                    outlineStyle={{borderRadius: 8, width: wp(133)}}
+                    style={styles.inputstyle2}
+                  />
+                </View>
+              </View>
+              {/* <TouchableOpacity style={styles.cardview}>
+                <Text style={{fontSize: 20}}>ok</Text>
+              </TouchableOpacity> */}
             </View>
-            <View style={styles.detail}>
-              <TextInput
-                mode="outlined"
-                label="NAME ON CARD"
-                placeholder="IRVAN MOSES"
-                activeOutlineColor="grey"
-                outlineColor="grey"
-                outlineStyle={{borderRadius: 10}}
-                style={styles.texgtinput1}
-              />
-            </View>
-            <View style={styles.miniinput}>
-              <TextInput
-                mode="outlined"
-                label="DEBIT CARD NUMBER"
-                activeOutlineColor="grey"
-                outlineColor="grey"
-                keyboardType="number-pad"
-                outlineStyle={{borderRadius: 8}}
-                style={styles.inputstyle}
-              />
-              <TextInput
-                mode="outlined"
-                label="CVC"
-                activeOutlineColor="grey"
-                outlineColor="grey"
-                keyboardType="decimal-pad"
-                outlineStyle={{borderRadius: 8}}
-                style={styles.inputstyle2}
-              />
-            </View>
-            <View style={styles.miniinput}>
-              <TextInput
-                mode="outlined"
-                label="EXPIRATION MM/YY"
-                activeOutlineColor="grey"
-                outlineColor="grey"
-                outlineStyle={{borderRadius: 8}}
-                style={styles.inputstyle}
-              />
-              <TextInput
-                mode="outlined"
-                label="ZIP"
-                activeOutlineColor="grey"
-                outlineColor="grey"
-                outlineStyle={{borderRadius: 8}}
-                style={styles.inputstyle2}
-              />
-            </View>
-          </View>
-        ) : (
-          <Account />
-        )}
-      </View>
-      <View style={styles.inputview}></View>
+          ) : (
+            <Account navigations={'Detailbill'} route={routedata} />
+          )}
+        </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -139,29 +167,24 @@ const styles = StyleSheet.create({
   imagbac: {
     width: '100%',
     height: hp(287),
+    backgroundColor: 'red',
   },
   view1: {
     width: '100%',
-    // height: hp(720),
-    padding: hp(20),
+    height: hp(771),
     backgroundColor: 'white',
-    position: 'absolute',
     borderRadius: 30,
-    top: hp(170),
     alignItems: 'center',
+    marginTop: hp(67),
   },
   view4: {
     flexDirection: 'row',
-    // padding: 15,
-    paddingHorizontal: wp(10),
-    paddingVertical: hp(5),
-    // justifyContent: 'space-between',
-    // marginHorizontal: wp(30),
     marginVertical: hp(10),
     backgroundColor: '#F4F6F6',
     borderRadius: 40,
-    bottom: hp(15),
-    width: hp(350),
+    paddingVertical: hp(4),
+    paddingHorizontal: wp(4),
+    marginTop: hp(22),
   },
   paytext: {
     fontWeight: '600',
@@ -170,44 +193,41 @@ const styles = StyleSheet.create({
     fontSize: fs(14),
   },
   touchstyle: {
-    paddingHorizontal: wp(36),
+    paddingHorizontal: wp(40),
     borderRadius: 20,
     paddingVertical: hp(12),
   },
   cardview: {
     alignItems: 'center',
-    bottom: hp(15),
+    marginTop: hp(25),
   },
   visa: {
     width: wp(284),
     height: hp(185),
-    marginTop: hp(10),
   },
   Cards: {
-    position: 'absolute',
-    top: hp(10),
     alignItems: 'center',
   },
   cardimage: {
     width: wp(324),
     height: hp(209),
+    position: 'absolute',
+    top: hp(15),
   },
   detailcontainer: {
     marginTop: hp(30),
   },
   detail: {
-    marginTop: hp(5),
+    // marginTop: hp(20),
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   texgtinput1: {
     height: hp(54),
     width: wp(330),
     backgroundColor: 'transparent',
     fontSize: fs(14),
-  },
-  inputview: {
-    marginTop: hp(5),
-    flexDirection: 'row',
-    gap: wp(11),
+    marginTop: hp(30),
   },
   inputstyle: {
     height: hp(54),
@@ -223,9 +243,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   miniinput: {
-    marginTop: hp(5),
     flexDirection: 'row',
-    gap: wp(11),
+    gap: 30,
   },
   adddebittext: {
     color: '#000',
@@ -235,6 +254,17 @@ const styles = StyleSheet.create({
   adddebittext2: {
     color: '#666',
     fontSize: fs(13),
+  },
+  cardvew: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewcard: {
+    width: '100%',
+    justifyContent: 'center',
+  },
+  addview: {
+    marginTop: hp(20),
   },
 });
 export default ConnectWallet;

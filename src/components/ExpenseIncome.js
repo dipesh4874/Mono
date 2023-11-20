@@ -7,7 +7,7 @@ const ExpenseIncome = () => {
   return (
     <View style={styles.cardsssview}>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={styles.downimageview}>
           <Image source={images.down} />
           <Text style={styles.incomestyle}>Income</Text>
         </View>
@@ -59,5 +59,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontStyle: 'normal',
     marginLeft: wp(5),
+  },
+  downimageview: {
+    flexDirection: 'row',
   },
 });

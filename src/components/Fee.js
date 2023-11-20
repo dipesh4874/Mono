@@ -1,21 +1,28 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {fs, hp, wp} from '../helper/Globel';
 
-const Fee = ({style}) => {
+const Fee = ({heder, routes}) => {
+  const [routedata, setroutedata] = useState(routes);
+  let totale;
+  if (routedata) {
+    totale = routedata.price.slice(4);
+  } else {
+    totale = '';
+  }
   return (
     <View>
       <View style={[styles.viewprice]}>
-        <Text style={styles.textprice}>Price</Text>
-        <Text style={styles.prizetext}>$ 11.99</Text>
+        <Text style={styles.textprice}>{heder}</Text>
+        <Text style={styles.prizetext}>{routedata.price}</Text>
       </View>
       <View style={styles.viewprice2}>
         <Text style={styles.textprice}>Fee</Text>
-        <Text style={styles.prizetext}>$ 1.99</Text>
+        <Text style={styles.prizetext}>- $ {2.99}</Text>
       </View>
       <View style={styles.viewtotal}>
         <Text style={styles.totaltext}>Total</Text>
-        <Text style={styles.totalprize}>$ 13.98</Text>
+        <Text style={styles.totalprize}>$ {(totale -= 2.99)}</Text>
       </View>
     </View>
   );

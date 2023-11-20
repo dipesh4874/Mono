@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(30),
-    marginTop: hp(25),
+    marginTop: hp(30),
     paddingBottom: hp(10),
   },
   text: {

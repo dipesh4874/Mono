@@ -59,6 +59,7 @@ const TabNavigation = () => {
       <Tab.Screen name="Stastic" component={Stastic} />
       <Tab.Screen name="Wallet" component={TwoScreen} />
       <Tab.Screen name="Profile" component={Profile} />
+      {/* <Tab.Screen name="Profile" component={Profile} /> */}
     </Tab.Navigator>
   );
 };

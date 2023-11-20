@@ -15,8 +15,11 @@ import {RadioButton} from 'react-native-paper';
 import Paybutton from '../components/Paybutton';
 import Bll from '../components/BIl';
 
-const Detailbill = ({navigation}) => {
+const Detailbill = ({navigation, route}) => {
   const [selectedValue, setSelectedValue] = useState(null);
+  const [paymentmethod, setpaymentmethod] = useState('');
+  const [routedata, setroutedata] = useState(route?.params);
+  routedata['type'] = paymentmethod;
 
   return (
     <View>
@@ -32,19 +35,39 @@ const Detailbill = ({navigation}) => {
           imagecolor={'white'}
         />
       </ImageBackground>
-      <Bll />
+      <Bll route={routedata} />
       <View style={styles.feeview}>
-        <Fee />
+        <Fee heder={'price'} routes={routedata} />
       </View>
       <View style={styles.paymentview}>
         <Text style={styles.paymtext}>Select payment method</Text>
       </View>
       <TouchableOpacity
-        onPress={() => setSelectedValue('option1')}
-        style={styles.touchdebit}>
+        onPress={() => {
+          setSelectedValue('option1'), setpaymentmethod('Debit Card');
+        }}
+        style={
+          selectedValue == 'option1'
+            ? [styles.touchdebit, {backgroundColor: '#4388831a'}]
+            : styles.touchdebit
+        }>
         <View style={styles.debitimageview}>
-          <Image source={images.debitcard} />
-          <Text style={styles.debittext}>Debit Card</Text>
+          <Image
+            source={images.debitcard}
+            style={
+              selectedValue == 'option1'
+                ? [styles.debitcardimage]
+                : {tintColor: '#888888'}
+            }
+          />
+          <Text
+            style={
+              selectedValue == 'option1'
+                ? [styles.debittext, {color: '#438883'}]
+                : styles.debittext
+            }>
+            Debit Card
+          </Text>
         </View>
         <RadioButton.Android
           value="option1"
@@ -56,11 +79,29 @@ const Detailbill = ({navigation}) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => setSelectedValue('option2')}
-        style={styles.touchdebit}>
+        onPress={() => {
+          setSelectedValue('option2'), setpaymentmethod('Paypal');
+        }}
+        style={
+          selectedValue == 'option2'
+            ? [styles.touchdebit, {backgroundColor: '#4388831a'}]
+            : styles.touchdebit
+        }>
         <View style={styles.paypalview}>
-          <Image source={images.pp} style={{height: hp(34)}} />
-          <Text style={styles.paypaltext}>Paypal</Text>
+          <Image
+            source={images.pp}
+            style={
+              selectedValue == 'option2' ? [styles.pp] : {tintColor: '#888888'}
+            }
+          />
+          <Text
+            style={
+              selectedValue == 'option2'
+                ? [styles.debittext, {color: '#438883'}]
+                : styles.debittext
+            }>
+            Paypal
+          </Text>
         </View>
         <RadioButton.Android
           value="option3"
@@ -69,7 +110,12 @@ const Detailbill = ({navigation}) => {
         />
       </TouchableOpacity>
       <View style={styles.buttonview}>
-        <Paybutton tittle={'Pay Now'} navigations={'Paybill'} />
+        <Paybutton
+          disabled={selectedValue == null ? true : false}
+          tittle={'Pay Now'}
+          navigations={'Paybill'}
+          route={routedata}
+        />
       </View>
     </View>
   );
@@ -98,6 +144,7 @@ const styles = StyleSheet.create({
   },
   feeview: {
     paddingHorizontal: wp(30),
+    marginTop: hp(43),
   },
   textyoutube: {
     fontSize: fs(18),
@@ -107,6 +154,7 @@ const styles = StyleSheet.create({
   debitimageview: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: wp(10),
   },
   paypalview: {
     flexDirection: 'row',
@@ -116,7 +164,7 @@ const styles = StyleSheet.create({
   paypaltext: {
     fontWeight: '600',
     fontSize: fs(16),
-    padding: 15,
+    padding: 25,
     color: 'black',
   },
   datetext: {
@@ -137,11 +185,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: wp(35),
     alignItems: 'center',
-    marginTop: hp(15),
+    marginTop: hp(20),
     backgroundColor: '#FAFAFA',
     borderRadius: 20,
+    width: wp(344),
     height: hp(90),
-    padding: 20,
+    padding: wp(10),
     justifyContent: 'space-between',
   },
   debittext: {
@@ -151,7 +200,17 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   buttonview: {
-    marginTop: hp(20),
+    marginTop: hp(25),
+  },
+  debitcardimage: {
+    width: wp(34),
+    height: wp(34),
+    tintColor: '#438883',
+  },
+  pp: {
+    width: wp(34),
+    height: wp(34),
+    tintColor: '#438883',
   },
 });
 

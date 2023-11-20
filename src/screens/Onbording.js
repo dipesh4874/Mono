@@ -5,10 +5,12 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import {images} from '../helper/images';
 import {fs, hp, wp} from '../helper/Globel';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Onbording = ({navigation}) => {
   return (
@@ -19,13 +21,19 @@ const Onbording = ({navigation}) => {
         style={styles.imageBacstyle}>
         <Image source={images.kid} style={styles.kidstyle} />
       </ImageBackground>
-      <View style={{alignItems: 'center'}}>
+      <View style={styles.spendview}>
         <Text style={styles.textstyle}>Spend Smarter</Text>
         <Text style={styles.textstyle}>Save More </Text>
         <TouchableOpacity
-          style={styles.touchstyle}
-          onPress={() => navigation.navigate('Tab')}>
-          <Text style={styles.styles}>Get Started</Text>
+          onPress={() => navigation.navigate('Tab')}
+          style={styles.btnshadow}>
+          <LinearGradient
+            start={{x: 1, y: 0}}
+            end={{x: 1, y: 1}}
+            colors={['#69AEA9', '#3F8782']}
+            style={styles.button}>
+            <Text style={styles.buttonText}>Get Started</Text>
+          </LinearGradient>
         </TouchableOpacity>
         <View style={styles.loginview}>
           <Text style={styles.laststyle}>Already Have Account? </Text>
@@ -44,48 +52,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   imageBacstyle: {
-    width: wp(400),
+    // flex: 1,
     height: hp(600),
+    width: '100%',
     justifyContent: 'flex-end',
   },
   kidstyle: {
-    height: hp(461),
-    width: wp(278),
+    height: hp(462),
+    width: wp(277),
     alignSelf: 'center',
-    // top: hp(10),
   },
   textstyle: {
-    width: wp(301),
     color: '#438883',
     textAlign: 'center',
     fontSize: fs(36),
-    fontStyle: 'normal',
     fontWeight: '700',
-  },
-  touchstyle: {
-    padding: hp(20),
-    borderRadius: 40,
-    width: wp(358),
-    height: hp(64),
-    alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#438883',
-    marginTop: hp(15),
-    shadowColor: '#3E7C78',
-
-    shadowOffset: {
-      width: wp(-5),
-      height: hp(12),
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  styles: {
-    alignSelf: 'center',
-    fontSize: fs(18),
-    fontStyle: 'normal',
-    fontWeight: '600',
-    color: 'white',
   },
   laststyle: {
     fontWeight: '400',
@@ -101,10 +82,42 @@ const styles = StyleSheet.create({
   loginview: {
     flexDirection: 'row',
     alignSelf: 'center',
-    marginTop: hp(18),
+    marginTop: hp(17),
     fontWeight: '500',
     fontSize: fs(14),
     lineHeight: 'normal',
+  },
+  button: {
+    // width: wp(358),
+    // height: hp(64),
+    paddingVertical: hp(18),
+    paddingHorizontal: wp(130),
+    borderRadius: 40,
+    // marginHorizontal: wp(28),
+    marginTop: hp(26),
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: fs(18),
+    color: '#ffffff',
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  btnshadow: {
+    shadowColor: '#3E7C78',
+    shadowOffset: {
+      width: wp(5),
+      height: hp(10),
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 11,
+    elevation: 2,
+  },
+  spendview: {
+    alignItems: 'center',
+    // marginVertical: hp(50),
+    // marginBottom: Platform.OS === 'android' ? hp(20) : hp(110),
+    marginTop: Platform.OS === 'ios' ? hp(50) : hp(20),
   },
 });
 

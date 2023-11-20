@@ -10,9 +10,11 @@ import React, {useState} from 'react';
 import Heder from '../components/Heder';
 import {images} from '../helper/images';
 import {fs, hp, wp} from '../helper/Globel';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Fee from '../components/Fee';
+import Paybutton from '../components/Paybutton';
 
-const Succesfull = ({navigation, route}) => {
+const Downlod = ({navigation, route, color}) => {
   const [show, setshow] = useState(false);
   const [routedata, setroutedata] = useState(route?.params);
 
@@ -23,8 +25,8 @@ const Succesfull = ({navigation, route}) => {
         style={styles.imagbac}
         resizeMode="stretch">
         <Heder
-          hedername={'Bill Payment'}
-          item={() => navigation.navigate('Paybill')}
+          hedername={'Transaction Details'}
+          item={() => navigation.navigate('Wallets')}
           imagess={images.dot}
           color={'white'}
           imagecolor={'white'}
@@ -32,12 +34,28 @@ const Succesfull = ({navigation, route}) => {
       </ImageBackground>
       <View style={styles.view1}>
         <View style={styles.imageview}>
-          <Image source={images.rights} />
-
-          <View style={styles.viewtext}>
-            <Text style={styles.textstyle}>Payment Successfully</Text>
+          <Image source={routedata.image} style={styles.imagestyle} />
+          <View
+            style={[
+              styles.income,
+              {
+                backgroundColor:
+                  routedata.status === 'Expense'
+                    ? 'rgba(249, 91, 81, 0.10)'
+                    : '#4388831A',
+              },
+            ]}>
+            <Text
+              style={[
+                styles.incometext,
+                {color: routedata.status === 'Expense' ? 'red' : '#438883'},
+              ]}>
+              {routedata.status}
+            </Text>
           </View>
-          <Text style={styles.youtube}>{routedata?.name} Premium</Text>
+          <View style={styles.vieww}>
+            <Text style={styles.dolartext}>{routedata.price}</Text>
+          </View>
         </View>
         <View style={styles.semviews}>
           <Text style={styles.tranhtext}>Transaction details</Text>
@@ -48,39 +66,47 @@ const Succesfull = ({navigation, route}) => {
         {show == true ? (
           <View>
             <View style={styles.semview}>
-              <Text style={styles.textstyless}>Payment method</Text>
-              <Text style={styles.text2}>{routedata?.type}</Text>
-            </View>
-            <View style={styles.semview}>
               <Text style={styles.textstyless}>Status</Text>
-              <Text style={styles.text3}>Completed</Text>
+              <Text
+                style={[
+                  styles.text2,
+                  {
+                    color: routedata.status === 'Expense' ? 'red' : '#438883',
+                  },
+                ]}>
+                {routedata.status}
+              </Text>
+            </View>
+            <View style={styles.semviews}>
+              <Text style={styles.textstyless}>From</Text>
+              <Text style={styles.textstyless}>{routedata.name}</Text>
             </View>
             <View style={styles.semview}>
               <Text style={styles.textstyless}>Time</Text>
-              <Text style={styles.text2}>08:15 AM</Text>
+              <Text style={styles.text2}>10:00 AM</Text>
             </View>
-            <View style={styles.semview}>
+            <View style={styles.view}>
               <Text style={styles.textstyless}>Date</Text>
               <Text style={styles.text2}>{routedata?.date}</Text>
-            </View>
-            <View style={styles.lastview}>
-              <Text style={styles.textstyless}>Transaction ID</Text>
-              <Text style={styles.text2}>2092913832472..</Text>
-              <Image source={images.copy} />
             </View>
           </View>
         ) : null}
         <View style={styles.feestyle}>
-          <Fee routes={routedata} heder={'price'} />
+          <Fee heder={'Earnings'} routes={routedata} />
         </View>
       </View>
       <View style={styles.buttonview}>
-        <TouchableOpacity
-          style={styles.paynow}
-          onPress={() => navigation.navigate('Wallets', route?.params)}>
-          <Text style={styles.paytext}>Share Receipt</Text>
+        <TouchableOpacity style={styles.paynow}>
+          <Text style={styles.paytext}>Download Receipt</Text>
         </TouchableOpacity>
       </View>
+
+      {/* <Paybutton
+          tittle={'Download Receipt'}
+          navigations={'Wallets'}
+          route={routedata}
+        /> */}
+      {/* </View> */}
     </View>
   );
 };
@@ -103,7 +129,15 @@ const styles = StyleSheet.create({
     marginTop: hp(165),
     flex: 1,
     height: '100%',
-    // justifyContent: 'space-between',
+  },
+  imageview: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imagestyle: {
+    height: wp(80),
+    width: wp(80),
+    borderRadius: 50,
   },
   viewtext: {
     justifyContent: 'center',
@@ -131,14 +165,13 @@ const styles = StyleSheet.create({
   text2: {
     fontSize: fs(16),
     fontWeight: '500',
-    color: 'black',
+    // color: '#438883',
   },
   semviews: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(30),
     marginTop: hp(42),
-    // backgroundColor: 'red',
   },
   semview: {
     flexDirection: 'row',
@@ -147,30 +180,48 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     marginTop: hp(12),
   },
-  lastview: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: wp(30),
-    borderBottomWidth: 2,
-    borderBottomColor: '#DDDDDD',
-    marginTop: hp(12),
+  income: {
+    marginTop: 10,
+
+    borderRadius: 40,
+    width: wp(80),
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: hp(25),
+  },
+  vieww: {
+    marginTop: hp(8),
   },
   feestyle: {
     padding: hp(30),
   },
-  youtube: {
-    color: '#666',
-    fontSize: fs(16),
+  incometext: {
+    fontSize: fs(14),
     fontWeight: '500',
+    color: '#438883',
   },
   tranhtext: {
     fontSize: fs(18),
     fontWeight: '500',
     color: 'black',
   },
-  text3: {
+  dolartext: {
+    fontSize: fs(24),
+    fontWeight: '600',
+    color: 'black',
+  },
+  view: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: wp(30),
+    // backgroundColor: 'red',
+    marginTop: hp(12),
+    borderBottomWidth: 0.5,
+    paddingBottom: hp(10),
+  },
+  paytext: {
+    fontSize: fs(18),
     color: '#438883',
-    fontSize: fs(16),
     fontWeight: '600',
   },
   paynow: {
@@ -178,6 +229,7 @@ const styles = StyleSheet.create({
     borderColor: '#438883',
     height: hp(60),
     width: wp(350),
+    // paddingHorizontal: wp(142),
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 40,
@@ -190,4 +242,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-export default Succesfull;
+export default Downlod;

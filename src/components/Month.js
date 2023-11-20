@@ -42,31 +42,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(10),
+    // backgroundColor: 'yellow',
   },
   Touchstyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(18),
-    // marginTop: hp(15),
   },
 });
-//   return (
-//     <View
-//       style={{
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         marginHorizontal: 10,
-//         marginTop: 50,
-//       }}>
-//       <Text>Mar</Text>
-//       <Text>Apr</Text>
-//       <Text>May</Text>
-//       <Text>Jun</Text>
-//       <Text>Jul</Text>
-//       <Text>Aug</Text>
-//       <Text>Sep</Text>
-//     </View>
-//   );
-// };
 
 export default Month;

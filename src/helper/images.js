@@ -52,4 +52,7 @@ export const images = {
   currency: require('../assets/images/currency.png'),
   rights: require('../assets/images/right.png'),
   copy: require('../assets/images/copy.png'),
+  chaked: require('../assets/images/chaked.png'),
+  vi: require('../assets/images/vi.png'),
+  downa: require('../assets/images/downa.png'),
 };

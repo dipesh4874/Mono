@@ -14,6 +14,7 @@ import Wallet from '../screens/Wallet';
 import Detailbill from '../screens/Detailbill';
 import Paybill from '../screens/Paybill';
 import Succesfull from '../screens/Succesfull';
+import Downlod from '../screens/Downlod';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ const Appnavigator = () => {
         initialRouteName="<"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Onbording" component={Onbording} />
+        {/* <Stack.Screen name="Homepage" component={Homepage} /> */}
         <Stack.Screen name="Stastic" component={Stastic} />
         <Stack.Screen name="AddExpense" component={AddExpense} />
         <Stack.Screen name="Tab" component={TabNavigation} />
@@ -31,6 +33,7 @@ const Appnavigator = () => {
         <Stack.Screen name="Detailbill" component={Detailbill} />
         <Stack.Screen name="Paybill" component={Paybill} />
         <Stack.Screen name="Succesfull" component={Succesfull} />
+        <Stack.Screen name="Downlod" component={Downlod} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -44,6 +47,7 @@ export const TwoScreen = () => {
       <Stack.Screen name="Detailbill" component={Detailbill} />
       <Stack.Screen name="Paybill" component={Paybill} />
       <Stack.Screen name="Succesfull" component={Succesfull} />
+      <Stack.Screen name="Downlod" component={Downlod} />
     </Stack.Navigator>
   );
 };

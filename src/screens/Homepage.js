@@ -5,8 +5,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  SafeAreaView,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 
@@ -17,8 +16,11 @@ import Upwork from '../components/Upwork';
 import SendAgin from '../components/SendAgin';
 
 import {images} from '../helper/images';
+import {Dummydata} from '../helper/Dummy';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 
 const Homepage = ({navigation}) => {
+  let route = useRoute();
   return (
     <View style={styles.safstyle}>
       <ImageBackground
@@ -47,49 +49,42 @@ const Homepage = ({navigation}) => {
           <ExpenseIncome />
         </View>
       </ImageBackground>
+
       <Tranjection />
 
-      <ScrollView>
-        <Upwork
-          image={images.upwork}
-          platform={'UpWork'}
-          date={'Today'}
-          price={'+ $ 850.00'}
-          color={'#25A969'}
+      <View style={styles.scrolviewa}>
+        <FlatList
+          data={route?.params ? route?.params : Dummydata}
+          bounces={false}
+          renderItem={({item, index}) => {
+            return (
+              <TouchableOpacity style={[styles.Touchstyle]}>
+                <Upwork
+                  platform={item.name}
+                  image={item.image}
+                  date={item.date}
+                  price={item.price}
+                  color={item.color}
+                />
+                {/* <Text>{item?.price}</Text>
+                <Text>{item?.name}</Text> */}
+              </TouchableOpacity>
+            );
+          }}
         />
-        <Upwork
-          image={images.Transfer}
-          platform={'Transfer'}
-          date={'Yesterday'}
-          price={'- $ 85.00'}
-          color={'red'}
-        />
-        <Upwork
-          image={images.paypal}
-          platform={'Paypal'}
-          date={'Jan 30, 2022'}
-          price={'+ $ 1,406.00'}
-          color={'#25A969'}
-        />
-        <Upwork
-          image={images.youtube}
-          platform={'Youtube'}
-          date={'Jan 16, 2022'}
-          price={'- $ 11.99'}
-          color={'red'}
-        />
-      </ScrollView>
+      </View>
       <SendAgin />
 
       <View style={styles.style1}>
-        <Image source={images.lady} />
-        <Image source={images.Men} />
-        <Image source={images.women} />
-        <Image source={images.bad} />
-        <Image source={images.girl} />
+        <Image source={images.lady} style={styles.imagepeople} />
+        <Image source={images.Men} style={styles.imagepeople} />
+        <Image source={images.women} style={styles.imagepeople} />
+        <Image source={images.bad} style={styles.imagepeople} />
+        <Image source={images.girl} style={styles.imagepeople} />
       </View>
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate('AddExpense')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddExpense', route?.params)}>
           <Image source={images.pluse} style={styles.style} />
         </TouchableOpacity>
       </View>
@@ -127,8 +122,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   cardview: {
-    width: wp(354),
-    height: hp(201),
+    width: wp(374),
+    height: hp(202),
     padding: 20,
     backgroundColor: '#2F7E79',
     // position: 'absolute',
@@ -204,7 +199,7 @@ const styles = StyleSheet.create({
   style: {
     position: 'absolute',
     bottom: hp(-40),
-    zIndex: 1,
+
     alignSelf: 'center',
     width: wp(100),
     height: hp(100),
@@ -212,6 +207,19 @@ const styles = StyleSheet.create({
   style1: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    marginTop: hp(20),
+  },
+  scrolviewa: {
+    marginTop: hp(19),
+    flex: 1,
+  },
+  imagepeople: {
+    width: wp(62),
+    height: wp(62),
+  },
+  Touchstyle: {
+    marginHorizontal: wp(10),
+    borderRadius: 12,
   },
 });
 

@@ -15,14 +15,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: wp(17),
     flexDirection: 'row',
-    marginBottom: hp(17),
-    paddingTop: hp(20),
+    marginTop: hp(15),
+    // paddingTop: hp(15),
   },
   text: {
     fontSize: fs(18),
     fontWeight: '600',
     color: '#222',
-    // marginBottom: hp(10),
   },
 
   secondtext: {

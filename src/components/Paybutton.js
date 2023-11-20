@@ -2,24 +2,32 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {fs, hp, wp} from '../helper/Globel';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const Paybutton = ({tittle, navigations, color}) => {
+const Paybutton = ({tittle, navigations, color, disabled, route}) => {
   const navigation = useNavigation();
   return (
     <View>
       <TouchableOpacity
-        style={styles.paynow}
-        onPress={() => navigation.navigate(navigations)}>
-        <Text style={styles.paytext}>{tittle}</Text>
+        disabled={disabled}
+        onPress={() => navigation.navigate(navigations, route)}
+        style={styles.btnshadow}>
+        <LinearGradient
+          start={{x: 1, y: 0}}
+          end={{x: 1, y: 1}}
+          colors={['#69AEA9', '#3F8782']}
+          style={styles.button}>
+          <Text style={styles.buttonText}>{tittle}</Text>
+        </LinearGradient>
       </TouchableOpacity>
     </View>
   );
 };
 const styles = StyleSheet.create({
   paynow: {
-    backgroundColor: '#438883',
+    // backgroundColor: '#438883',
     height: hp(60),
-    width: wp(320),
+    width: wp(358),
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 40,
@@ -35,6 +43,29 @@ const styles = StyleSheet.create({
   paytext: {
     fontSize: fs(18),
     color: 'white',
+    fontWeight: '600',
+  },
+  btnshadow: {
+    shadowColor: '#3E7C78',
+    shadowOffset: {
+      width: 5,
+      height: 10,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 11,
+  },
+  button: {
+    width: wp(358),
+    height: hp(64),
+    borderRadius: 40,
+
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  buttonText: {
+    fontSize: fs(18),
+    color: '#ffffff',
+    textAlign: 'center',
     fontWeight: '600',
   },
 });
